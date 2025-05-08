@@ -9,7 +9,7 @@ module.exports = {
             .setDescription(description)
             .setColor(color)
             .setFooter({
-                text: "by BotCurumin",
+                text: "by Codify",
             })
             .setTimestamp();
 
