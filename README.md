@@ -1,13 +1,11 @@
 # 🤖 CodifyBot
 
-Bot de Discord escrito em **TypeScript** usando a biblioteca [discord.js](https://discord.js.org/).
-Feito para interagir com slash commands personalizados, com mensagens estilizadas via embeds e GIFs.
-
+Este é um Bot de Discord da [Codify](https://discord.gg/VbKyRrnn8W) ✨
 ---
 
 ## 💪 Como contribuir
 
-Fale com um dos ADM do [servidor do discord da Codify](https://discord.gg/VbKyRrnn8W)
+Fale com um dos ADMs do [servidor do discord da Codify](https://discord.gg/VbKyRrnn8W)
 
 Segue abaixo uma pequena doc e como de fato codar o bot!
 
@@ -31,7 +29,7 @@ DISCORD_CLIENT_ID= id do bot no discord
 DISCORD_GUILD_ID= id do servidor do discord
 ```
 
-A chave DISCORD_TOKEN é obtida no [Discord Developer Portal](https://discord.com/developers/applications).
+A chave `DISCORD_TOKEN` é obtida no [Discord Developer Portal](https://discord.com/developers/applications).
 Os IDS basta entrar no discord e clicar com o botão direito no bot e no servidor, todos são a ultima opção.
 
 ---
@@ -70,8 +68,8 @@ Todos os comandos estão dentro de `src/commands/`. Cada arquivo deve exportar:
 
 ```ts
 export default {
-  data: new SlashCommandBuilder() // define nome, descrição, opções
-  execute(interaction)            // lógica ao ser chamado
+  data: new SlashCommandBuilder() // define nome, descrição e opções
+  execute(interaction)            // lógica ao ser chamado, o que ele vai fazer
 }
 ```
 
@@ -79,7 +77,7 @@ export default {
 O carregamento e registro é feito automaticamente ao subir o bot e TODOS os .ts seguem um padrão:
 
 ```properties
-nome_do_comando.ts
+nomeDoComando.ts
 ```
 e TODOS devem ficar dentro da pasta `src/commands/`
 
@@ -114,8 +112,11 @@ O arquivo `attach.json` contém links prontos para GIFs usados em comandos e men
 ```json
 {
   "gifs": {
-    "ping": "https://i.ibb.co/2g1CTst/ping.gif",
-    "love": "https://i.ibb.co/NgYxJW1Q/love.gif"
+    "ping": "https://i.ibb.co/ ... .gif",
+    "love": "https://i.ibb.co/ ... .gif"
+  },
+  "img": {
+    "hello": "https://i.ibb.co/....",
   }
 }
 ```
@@ -124,27 +125,19 @@ Use assim:
 
 ```ts
 import attach from "../../attach.json";
-attach.gifs.ping; // "https://i.ibb.co/2g1CTst/ping.gif"
+attach.gifs.ping; // "https://i.ibb.co/ ... .gif"
 ```
+
+Todos eles são mantidos por [imgbb](https://imgbb.com/)
+
+Para adicionar novos, faça o seguinte:
+- Crie sua conta no [site](https://imgbb.com/)
+- Realize seu upload
+- Se atente para deixar SEM tempo de expiração e público
+- busque pelo LINK NATIVO e não qualquer outro, o formato dele basicamente segue os outros que já estão no `attach.json`("https://i.ibb.co/StringAleatoria/arquivo.***")
+- daí basta adicionar no `attach.json` e usar no projeto
 
 ---
 
-## 🧐 Exemplo de comando com tudo
 
-```ts
-await interaction.reply({
-  embeds: [
-    createEmbed({
-      title: "Olá!",
-      description: `Olá <@${user.id}>!`,
-      image: attach.gifs.love,
-      color: BotColors.primary,
-      timestamp: true
-    })
-  ]
-});
-```
-
----
-
-Feito inicialmente com 💜 por Dev Curumin.
+Feito inicialmente de 💜 por [Dev Curumin](https://github.com/thiagochirana).
