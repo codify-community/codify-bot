@@ -1,0 +1,18 @@
+{
+  "name": "codify-bot",
+  "version": "1.0.0",
+  "description": "The new Official Codify Bot Discord",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "keywords": [],
+  "author": "Dev Curumin",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0"
+  }
+}
