@@ -2,10 +2,11 @@
   "name": "codify-bot",
   "version": "1.0.0",
   "description": "The new Official Codify Bot Discord",
-  "main": "main.js",
+  "main": "src/bot.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js"
+    "dev": "ts-node src/bot.ts",
+    "build": "tsc",
+    "start": "node dist/bot.js"
   },
   "keywords": [],
   "author": "Dev Curumin",
@@ -14,5 +15,10 @@
   "dependencies": {
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
