@@ -42,6 +42,8 @@ Instale as dependências:
 npm install
 ```
 
+Agora leia atentamente o DATABASE.md para entender a configuracao local do banco de dados
+
 E rode no seu PC :
 
 ```bash
