@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { logCommandUsage } from "../utils/logCommands";
-import { BotColors, createEmbed } from "../utils/embeds/embedMessages";
-import attach from "../../attach.json";
+import { logCommandUsage } from "@/utils/logCommands";
+import { BotColors, createEmbed } from "@/utils/embeds/embedMessages";
+import attach from "@/attach.json";
 
 export default {
   data: new SlashCommandBuilder().setName("ping").setDescription("Pong!"),

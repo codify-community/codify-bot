@@ -4,7 +4,7 @@
   "description": "The new Official Codify Bot Discord",
   "main": "src/bot.ts",
   "scripts": {
-    "dev": "ts-node src/bot.ts",
+    "dev": "ts-node --require tsconfig-paths/register src/bot.ts",
     "build": "tsc",
     "start": "node dist/bot.js",
     "lint": "npx eslint .",
@@ -28,6 +28,7 @@
     "@types/node": "^22.15.15",
     "eslint": "^9.26.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.0"
   }

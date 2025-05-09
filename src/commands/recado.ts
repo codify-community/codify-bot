@@ -2,8 +2,8 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder
 } from "discord.js";
-import { logCommandUsage } from "../utils/logCommands";
-import { createEmbed } from "../utils/embeds/embedMessages";
+import { logCommandUsage } from "@/utils/logCommands";
+import { createEmbed } from "@/utils/embeds/embedMessages";
 
 const respostas = [
   "vai trabalhar @! v4g4bund0",
