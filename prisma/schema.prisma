@@ -20,6 +20,7 @@ model DiscordUser {
   username       String
   discriminator  String
   avatar         String?
+  wallet         Decimal?      @db.Decimal(12, 4)
   roles          DiscordRole[] @relation("UserRoles")
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
