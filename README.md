@@ -42,7 +42,7 @@ Instale as dependências:
 npm install
 ```
 
-Agora leia atentamente o DATABASE.md para entender a configuracao local do banco de dados
+Agora leia atentamente o [DATABASE.md](https://github.com/codify-community/codify-bot/blob/main/DATABASE.md) para entender a configuracao local do banco de dados
 
 E rode no seu PC :
 
