@@ -1,7 +1,6 @@
 import {
   ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  User,
+  SlashCommandBuilder
 } from "discord.js";
 import { logCommandUsage } from "../utils/logCommands";
 import { createEmbed } from "../utils/embeds/embedMessages";
