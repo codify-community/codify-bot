@@ -6,6 +6,10 @@ Este projeto utiliza o [Prisma ORM](https://www.prisma.io/) com PostgreSQL para 
 
 ### 🔧 Configuração
 
+> ⚠️ ATENÇÃO DEV!
+> Antes de mais nada, voce precisa ter o banco de dados [PostgreSQL](https://www.postgresql.org/) instalado e operando em sua máquina antes de fazer os próximos processos.
+> A forma como ele é instalado diferencia de SO para SO, distro para distro ou vice-versa. Pesquise como fazer.
+
 No seu arquivo `.env`, adicione:
 
 ```env
@@ -34,11 +38,13 @@ npm install
 npx prisma migrate deploy
 ```
 
+O projeto já está disponível para uso!
+
 ---
 
 ### 🚀 Seed (futuro)
 
-O projeto poderá usar seeds com:
+O projeto poderá usar seeds (mocks de dados) com:
 
 ```bash
 npx prisma db seed
