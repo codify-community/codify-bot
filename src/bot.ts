@@ -10,6 +10,7 @@ import {
 import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
+import { Log } from "./utils/log";
 
 dotenv.config();
 
@@ -22,19 +23,38 @@ type Command = {
 
 const commands = new Map<string, Command>();
 
+/**
+ * Recursively retrieves all .ts command files from the given directory and its subdirectories.
+ * Useful for loading slash commands organized in nested folders like /commands/admin/. or /commands/whatever/*.ts
+ */
+function getAllCommandFiles(dir: string, files: string[] = []): string[] {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      getAllCommandFiles(fullPath, files);
+    } else if (entry.isFile() && entry.name.endsWith(".ts")) {
+      files.push(fullPath);
+    }
+  }
+
+  return files;
+}
+
 client.once(Events.ClientReady, async (c) => {
-  console.log(`✅ Bot logado como ${c.user.tag}`);
+  Log.success(`✅ Bot logado como ${c.user.tag}`);
 
   // loading all commmands in src/commands/
   const commandsPath = path.join(__dirname, "commands");
-  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".ts"));
+  const commandFiles = getAllCommandFiles(commandsPath);
 
   const restCommands = [];
 
-  console.log("👁️  Lendo todos os slash commands...");
+  Log.info("👁️  Lendo todos os slash commands...");
   for (const file of commandFiles) {
-    console.log(`  >  ➕ adicionando ${file} à lista de slash commands`);
-    const filePath = path.join(commandsPath, file);
+    Log.info(`  >  ➕ adicionando ${file} à lista de slash commands`);
+    const filePath = file;
     const command: Command = (await import(filePath)).default;
     commands.set(command.data.name, command);
     restCommands.push(command.data.toJSON());
@@ -43,7 +63,7 @@ client.once(Events.ClientReady, async (c) => {
   // register these commands
   const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
   try {
-    console.log(`🔄 Registrando a lista de slash commands ao bot ${c.user.tag}...`);
+    Log.info(`🔄 Registrando a lista de slash commands ao bot ${c.user.tag}...`);
     await rest.put(
       Routes.applicationGuildCommands(
         process.env.DISCORD_CLIENT_ID!,
@@ -51,10 +71,12 @@ client.once(Events.ClientReady, async (c) => {
       ),
       { body: restCommands }
     );
-    console.log(`✅ slash commands registrados ao bot ${c.user.tag} com sucesso!`);
+    Log.success(`✅ slash commands registrados ao bot ${c.user.tag} com sucesso!`);
   } catch (error) {
-    console.error("❌ Erro ao registrar slash commands:", error);
+    Log.error(`❌ Erro ao registrar slash commands: ${error}`);
   }
+
+  Log.success(`⚙️ ${c.user.tag} iniciado com sucesso!`);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {

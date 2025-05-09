@@ -1,4 +1,6 @@
 import { ChatInputCommandInteraction, TextChannel } from "discord.js";
+import chalk from "chalk";
+import { Log } from "./log";
 
 export function logCommandUsage(interaction: ChatInputCommandInteraction) {
   const user = interaction.user.tag;
@@ -8,5 +10,6 @@ export function logCommandUsage(interaction: ChatInputCommandInteraction) {
     : "Canal privado ou sem nome";
   const command = interaction.commandName;
 
-  console.log(`[${server}] #${channel} - ${user} executou /${command}`);
+  const logMessage = `${chalk.hex("#ff69b4")(`[${server}]`)} ${chalk.green(`#${channel}`)} - ${chalk.yellow(`@${user}`)} executou ${chalk.blue(`/${command}`)}`
+  Log.info(logMessage, false)
 }
