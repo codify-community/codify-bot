@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { logCommandUsage } from "@/utils/logCommands";
 import { BotColors, createEmbed } from "@/utils/embeds/embedMessages";
 import { Log } from "@/utils/log";
@@ -31,10 +31,12 @@ export default {
         title: "✅ Registrado!",
         description: `Você foi registrado com sucesso!`,
         color: BotColors.success,
-        image: attach.gifs.noted
+        image: user.displayAvatarURL()
       });
 
-      await interaction.reply({ embeds: [embed] });
+      await interaction.reply({ embeds: [embed] })
+        .then(() => Log.info('Mensagem enviada para o comando /register'))
+        .catch(Log.error);
     } catch (err) {
 
       const embed = createEmbed({
@@ -45,7 +47,9 @@ export default {
       });
 
       Log.error(`Erro ao registrar usuário: ${err}`);
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral })
+        .then(() => Log.info('Mensagem de erro enviada para o comando /register'))
+        .catch(Log.error);
     } finally {
       await db.$disconnect();
     }
