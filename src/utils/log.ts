@@ -31,5 +31,9 @@ export const Log = {
     } else {
       console.log(`[SUCCESS] ${message}`);
     }
+  },
+
+  database(message: string) {
+    console.log(`${chalk.magentaBright("[DATABASE]")} ${message}`);
   }
 };
