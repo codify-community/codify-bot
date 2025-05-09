@@ -42,4 +42,16 @@ model DiscordGuild {
   roles     DiscordRole[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
+
+  DiscordGuildEnviroment DiscordGuildEnviroment[]
+}
+
+// Enviroments for DiscordGuild
+model DiscordGuildEnviroment {
+  id                 String        @id @default(uuid())
+  guild              DiscordGuild  @relation(fields: [guildId], references: [id])
+  guildId            String        @unique
+  initialMoneyValue  Decimal       @db.Decimal(12, 4)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 }
