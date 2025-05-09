@@ -18,20 +18,37 @@ export default {
     const { user } = interaction;
 
     try {
+      const guildId = interaction.guild?.id;
+      if (!guildId) throw new Error("Seu server não foi não encontrado.");
+
+      const env = await db.discordGuildEnviroment.findUnique({
+        where: { guildId }
+      });
+
+      if (!env) throw new Error("Configuracoes do seu server não foram encontradas");
+
       await db.discordUser.create({
         data: {
           id: user.id,
           username: user.username,
           discriminator: user.discriminator,
-          avatar: user.avatar
+          avatar: user.avatar,
+          wallet: env.initialMoneyValue
         }
       });
 
       const embed = createEmbed({
         title: "✅ Registrado!",
-        description: `Você foi registrado com sucesso!`,
+        description: `Você foi registrado com sucesso!\nUse seu saldo em carteira como quiser!`,
         color: BotColors.success,
-        image: user.displayAvatarURL()
+        image: user.displayAvatarURL(),
+        fields: [
+          {
+            name: "💰 Saldo Inicial",
+            value: `R$ ${env.initialMoneyValue.toFixed(4)}`,
+            inline: false
+          }
+        ]
       });
 
       await interaction.reply({ embeds: [embed] })
