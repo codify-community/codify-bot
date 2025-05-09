@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // postgresql://username:password@localhost:5432/namedatabase?schema=public
+}
+
+// migrate add_discord_user_roles_server
+model DiscordUser {
+  id             String    @id // ID do Discord
+  username       String
+  discriminator  String
+  avatar         String?
+  roles          DiscordRole[] @relation("UserRoles")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model DiscordRole {
+  id        String         @id // ID do cargo
+  name      String
+  guild     DiscordGuild  @relation(fields: [guildId], references: [id])
+  guildId   String
+  users     DiscordUser[] @relation("UserRoles")
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model DiscordGuild {
+  id        String         @id // ID do servidor
+  name      String
+  icon      String?
+  roles     DiscordRole[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
