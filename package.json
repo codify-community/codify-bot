@@ -4,9 +4,9 @@
   "description": "The new Official Codify Bot Discord",
   "main": "src/bot.ts",
   "scripts": {
-    "dev": "ts-node --require tsconfig-paths/register src/bot.ts",
-    "build": "tsc",
+    "start:dev": "tsx --watch src/bot.ts",
     "start": "node dist/bot.js",
+    "build": "tsup src --out-dir dist",
     "lint": "npx eslint .",
     "db_gui": "npx prisma studio",
     "db_apply": "npx prisma migrate deploy"
@@ -14,7 +14,6 @@
   "keywords": [],
   "author": "Dev Curumin",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@prisma/adapter-pg": "6.7.0",
     "@prisma/client": "6.7.0",

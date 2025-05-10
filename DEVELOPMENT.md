@@ -35,7 +35,7 @@ Agora leia atentamente o [DATABASE.md](https://github.com/codify-community/codif
 E rode no seu PC :
 
 ```bash
-npm run dev
+npm run start:dev
 ```
 
 Compile para produção:
