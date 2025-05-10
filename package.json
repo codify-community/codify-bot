@@ -4,9 +4,9 @@
   "description": "The new Official Codify Bot Discord",
   "main": "src/bot.ts",
   "scripts": {
-    "dev": "ts-node --require tsconfig-paths/register src/bot.ts",
-    "build": "tsc",
+    "start:dev": "tsx --watch src/bot.ts",
     "start": "node dist/bot.js",
+    "build": "tsup src --out-dir dist",
     "lint": "npx eslint .",
     "db_gui": "npx prisma studio",
     "db_apply": "npx prisma migrate deploy"
@@ -14,23 +14,24 @@
   "keywords": [],
   "author": "Dev Curumin",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@prisma/adapter-pg": "^6.7.0",
-    "@prisma/client": "^6.7.0",
-    "chalk": "^5.4.1",
-    "discord.js": "^14.19.3",
-    "dotenv": "^16.5.0",
-    "prisma": "^6.7.0",
-    "zod": "^3.24.4"
+    "@prisma/adapter-pg": "6.7.0",
+    "@prisma/client": "6.7.0",
+    "chalk": "4.1.2",
+    "discord.js": "14.19.3",
+    "dotenv": "16.5.0",
+    "prisma": "6.7.0",
+    "zod": "3.24.4"
   },
   "devDependencies": {
-    "@eslint/js": "^9.26.0",
-    "@types/node": "^22.15.15",
-    "eslint": "^9.26.0",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.0"
+    "@eslint/js": "9.26.0",
+    "@types/node": "22.15.15",
+    "eslint": "9.26.0",
+    "ts-node": "10.9.2",
+    "tsconfig-paths": "4.2.0",
+    "tsup": "8.4.0",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.32.0"
   }
 }
