@@ -43,33 +43,40 @@ function getAllCommandFiles(dir: string, files: string[] = []): string[] {
 }
 
 async function createBotDatabase() {
-  for (const [guildId, guild] of client.guilds.cache) {
-    Log.info(`⚙️ Criando database do server ${guild.name}`)
-    try {
-      await db.discordGuild.upsert({
-        where: { id: guildId },
-        update: {
-          name: guild.name,
-          icon: guild.iconURL() ?? undefined
-        },
-        create: {
-          id: guildId,
-          name: guild.name,
-          icon: guild.iconURL() ?? undefined,
-          DiscordGuildEnviroment: {
-            create: {
-              initialMoneyValue: 301.0000
-            }
+  const guild = client.guilds.cache.get(env.DISCORD_GUILD_ID);
+
+  if (!guild) {
+    Log.error(`❌ Guild com ID ${env.DISCORD_GUILD_ID} não encontrada no cache.`);
+    return;
+  }
+
+  Log.info(`⚙️ Criando database do servidor ${guild.name}`);
+
+  try {
+    await db.discordGuild.upsert({
+      where: { id: guild.id },
+      update: {
+        name: guild.name,
+        icon: guild.iconURL() ?? undefined
+      },
+      create: {
+        id: guild.id,
+        name: guild.name,
+        icon: guild.iconURL() ?? undefined,
+        env: {
+          create: {
+            initialMoneyValue: 301.0000
           }
         }
-      });
+      }
+    });
 
-      Log.database(`✅ Server sincronizado: ${guild.name}`);
-    } catch (err) {
-      Log.error(`❌ Erro ao sincronizar server ${guild.name}: ${err}`);
-    }
+    Log.database(`✅ Servidor sincronizado: ${guild.name}`);
+  } catch (err) {
+    Log.error(`❌ Erro ao sincronizar servidor ${guild.name}: ${err}`);
   }
 }
+
 
 function applyBotMigrations() {
   try {
@@ -81,25 +88,20 @@ function applyBotMigrations() {
 }
 
 async function setupBotDatabase() {
-  const guildIds = [...client.guilds.cache.keys()];
+  const guildId = env.DISCORD_GUILD_ID;
 
-  const existingGuilds = await db.discordGuild.findMany({
-    where: {
-      id: { in: guildIds }
-    },
-    select: { id: true }
+  const exists = await db.discordGuild.findUnique({
+    where: { id: guildId }
   });
 
-  if (existingGuilds.length > 0) {
-    Log.info("🔁 Servidores já registrados encontrados. Aplicando migrations...");
+  if (exists) {
+    Log.info("🔁 Servidor já registrado. Aplicando migrations...");
     applyBotMigrations();
   } else {
-    Log.info("🆕 Nenhum servidor encontrado no banco. Criando estrutura inicial...");
+    Log.info("🆕 Servidor ainda não está no banco. Criando estrutura...");
     await createBotDatabase();
   }
 }
-
-
 
 client.once(Events.ClientReady, async (c) => {
   Log.success(`✅ Bot logado como ${c.user.tag}`);
@@ -126,9 +128,7 @@ client.once(Events.ClientReady, async (c) => {
   try {
     Log.info(`🔄 Registrando a lista de slash commands ao bot ${c.user.tag}...`);
     await rest.put(
-      Routes.applicationCommands(
-        process.env.DISCORD_CLIENT_ID!
-      ),
+      Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID),
       { body: restCommands }
     );
     Log.success(`✅ slash commands registrados ao bot ${c.user.tag} com sucesso!`);
