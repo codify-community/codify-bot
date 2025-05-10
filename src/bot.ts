@@ -10,6 +10,8 @@ import {
 import fs from "node:fs";
 import path from "node:path";
 import { Log } from "./utils/log";
+import { execSync } from "node:child_process";
+import db from "./lib/db";
 import { env } from "./env";
 import { pathToFileURL } from "url";
 
@@ -41,8 +43,71 @@ function getAllCommandFiles(dir: string, files: string[] = []): string[] {
   return files;
 }
 
+async function createBotDatabase() {
+  const guild = client.guilds.cache.get(env.DISCORD_GUILD_ID);
+
+  if (!guild) {
+    Log.error(`❌ Guild com ID ${env.DISCORD_GUILD_ID} não encontrada no cache.`);
+    return;
+  }
+
+  Log.info(`⚙️ Criando database do servidor ${guild.name}`);
+
+  try {
+    await db.discordGuild.upsert({
+      where: { id: guild.id },
+      update: {
+        name: guild.name,
+        icon: guild.iconURL() ?? undefined
+      },
+      create: {
+        id: guild.id,
+        name: guild.name,
+        icon: guild.iconURL() ?? undefined,
+        env: {
+          create: {
+            initialMoneyValue: 301.0000
+          }
+        }
+      }
+    });
+
+    Log.database(`✅ Servidor sincronizado: ${guild.name}`);
+  } catch (err) {
+    Log.error(`❌ Erro ao sincronizar servidor ${guild.name}: ${err}`);
+  }
+}
+
+
+function applyBotMigrations() {
+  try {
+    execSync("npx prisma migrate deploy", { stdio: "inherit" });
+    Log.database("Migrations aplicadas com sucesso.");
+  } catch (err) {
+    Log.error(`Erro ao aplicar migrations: ${err}`);
+  }
+}
+
+async function setupBotDatabase() {
+  const guildId = env.DISCORD_GUILD_ID;
+
+  const exists = await db.discordGuild.findUnique({
+    where: { id: guildId }
+  });
+
+  if (exists) {
+    Log.info("🔁 Servidor já registrado. Aplicando migrations...");
+    applyBotMigrations();
+  } else {
+    Log.info("🆕 Servidor ainda não está no banco. Criando estrutura...");
+    await createBotDatabase();
+  }
+}
+
 client.once(Events.ClientReady, async (c) => {
   Log.success(`✅ Bot logado como ${c.user.tag}`);
+
+  await setupBotDatabase();
 
   // loading all commmands in src/commands/
   const commandsPath = path.join(__dirname, "commands");
@@ -64,10 +129,7 @@ client.once(Events.ClientReady, async (c) => {
   try {
     Log.info(`🔄 Registrando a lista de slash commands ao bot ${c.user.tag}...`);
     await rest.put(
-      Routes.applicationGuildCommands(
-        env.DISCORD_CLIENT_ID,
-        env.DISCORD_GUILD_ID
-      ),
+      Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID),
       { body: restCommands }
     );
     Log.success(`✅ slash commands registrados ao bot ${c.user.tag} com sucesso!`);

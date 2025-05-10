@@ -4,6 +4,7 @@ CREATE TABLE "DiscordUser" (
     "username" TEXT NOT NULL,
     "discriminator" TEXT NOT NULL,
     "avatar" TEXT,
+    "wallet" DECIMAL(12,4) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -14,7 +15,6 @@ CREATE TABLE "DiscordUser" (
 CREATE TABLE "DiscordRole" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "guildId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -33,6 +33,17 @@ CREATE TABLE "DiscordGuild" (
 );
 
 -- CreateTable
+CREATE TABLE "DiscordGuildEnviroment" (
+    "id" TEXT NOT NULL,
+    "guildId" TEXT NOT NULL,
+    "initialMoneyValue" DECIMAL(12,4) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "DiscordGuildEnviroment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_UserRoles" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -41,10 +52,13 @@ CREATE TABLE "_UserRoles" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "DiscordGuildEnviroment_guildId_key" ON "DiscordGuildEnviroment"("guildId");
+
+-- CreateIndex
 CREATE INDEX "_UserRoles_B_index" ON "_UserRoles"("B");
 
 -- AddForeignKey
-ALTER TABLE "DiscordRole" ADD CONSTRAINT "DiscordRole_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "DiscordGuild"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "DiscordGuildEnviroment" ADD CONSTRAINT "DiscordGuildEnviroment_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "DiscordGuild"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_UserRoles" ADD CONSTRAINT "_UserRoles_A_fkey" FOREIGN KEY ("A") REFERENCES "DiscordRole"("id") ON DELETE CASCADE ON UPDATE CASCADE;
