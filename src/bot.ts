@@ -7,14 +7,12 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder
 } from "discord.js";
-import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
 import { Log } from "./utils/log";
 import { execSync } from "node:child_process";
 import db from "./lib/db";
-
-dotenv.config();
+import { env } from "./env";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -124,7 +122,7 @@ client.once(Events.ClientReady, async (c) => {
   }
 
   // register these commands
-  const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
+  const rest = new REST().setToken(env.DISCORD_TOKEN);
   try {
     Log.info(`🔄 Registrando a lista de slash commands ao bot ${c.user.tag}...`);
     await rest.put(
@@ -148,4 +146,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (command) await command.execute(interaction);
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(env.DISCORD_TOKEN);
