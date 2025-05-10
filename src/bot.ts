@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { Log } from "./utils/log";
 import { env } from "./env";
+import { pathToFileURL } from "url";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -53,7 +54,7 @@ client.once(Events.ClientReady, async (c) => {
   for (const file of commandFiles) {
     Log.info(`  >  ➕ adicionando ${file} à lista de slash commands`);
     const filePath = file;
-    const command: Command = (await import(filePath)).default;
+    const command: Command = (await import(pathToFileURL(filePath).href)).default;
     commands.set(command.data.name, command);
     restCommands.push(command.data.toJSON());
   }
