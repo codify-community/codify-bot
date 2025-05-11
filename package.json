@@ -7,7 +7,8 @@
     "start:dev": "tsx --watch src/bot.ts",
     "start": "node dist/bot.js",
     "build": "tsup src --out-dir dist",
-    "lint": "npx eslint .",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "db_gui": "npx prisma studio",
     "db_apply": "npx prisma migrate deploy"
   },
@@ -27,6 +28,8 @@
     "@eslint/js": "9.26.0",
     "@types/node": "22.15.15",
     "eslint": "9.26.0",
+    "eslint-plugin-prettier": "5.4.0",
+    "eslint-plugin-simple-import-sort": "12.1.1",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "tsup": "8.4.0",

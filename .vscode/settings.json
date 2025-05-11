@@ -1,14 +1,14 @@
 {
-  "files.autoSave": "afterDelay",
-  "editor.renderWhitespace": "all",
-  "files.autoSaveDelay": 100,
-  "html.format.templating": true,
-  "editor.tabSize": 2,
-  "files.trimTrailingWhitespace": true,
-  "files.trimTrailingWhitespaceInRegexAndStrings": true,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false,
-  "window.customTitleBarVisibility": "auto",
-  "window.titleBarStyle": "custom",
-  "window.experimentalControlOverlay": true
+    "files.autoSave": "afterDelay",
+    "editor.renderWhitespace": "all",
+    "files.autoSaveDelay": 100,
+    "html.format.templating": true,
+    "editor.tabSize": 4,
+    "files.trimTrailingWhitespace": true,
+    "files.trimTrailingWhitespaceInRegexAndStrings": true,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "window.customTitleBarVisibility": "auto",
+    "window.titleBarStyle": "custom",
+    "window.experimentalControlOverlay": true
 }
