@@ -1,6 +1,11 @@
-node_modules
-package-lock.json
-dist
-/.env
-!/.env.example
-generated/
+# Compiled output
+/dist
+/node_modules
+/generated
+
+# Dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
