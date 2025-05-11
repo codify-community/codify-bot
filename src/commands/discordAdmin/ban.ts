@@ -13,7 +13,8 @@ export default {
                 option.setName("motivo")
                   .setDescription("Razão pelo qual o usuário foi banido (opcional)")
                   .setRequired(false)
-              ),
+              )
+              .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
   async execute(interaction: ChatInputCommandInteraction) {
     if(!interaction.memberPermissions?.has(PermissionFlagsBits.BanMembers)) {
