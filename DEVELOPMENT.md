@@ -27,7 +27,7 @@ Os IDS basta entrar no discord e clicar com o botão direito no bot e no servido
 Instale as dependências:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Agora leia atentamente o [DATABASE.md](https://github.com/codify-community/codify-bot/blob/main/DATABASE.md) para entender a configuracao local do banco de dados
@@ -35,19 +35,19 @@ Agora leia atentamente o [DATABASE.md](https://github.com/codify-community/codif
 E rode no seu PC :
 
 ```bash
-npm run start:dev
+pnpm run start:dev
 ```
 
 Compile para produção:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Rode a versão compilada:
 
 ```bash
-npm start
+pnpm run start
 ```
 
 ---
