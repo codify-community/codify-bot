@@ -1,7 +1,7 @@
 {
-  "recommendations": [
-    "ms-vscode.vscode-typescript-next",
-    "dbaeumer.vscode-eslint",
-    "prisma.prisma"
-  ]
+    "recommendations": [
+        "ms-vscode.vscode-typescript-next",
+        "dbaeumer.vscode-eslint",
+        "prisma.prisma"
+    ]
 }

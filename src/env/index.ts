@@ -1,6 +1,8 @@
-import { Log } from '@/utils/log'
 import 'dotenv/config'
+
 import { z } from 'zod'
+
+import { Log } from '@/utils/log'
 
 const envSchema = z.object({
     DISCORD_TOKEN: z.string(),

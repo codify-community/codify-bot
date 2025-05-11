@@ -5,48 +5,48 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL") // postgresql://username:password@localhost:5432/namedatabase?schema=public
+    provider = "postgresql"
+    url      = env("DATABASE_URL") // postgresql://username:password@localhost:5432/namedatabase?schema=public
 }
 
 model DiscordUser {
-  id             String         @id // ID do Discord
-  username       String
-  discriminator  String
-  avatar         String?
-  wallet         Decimal        @db.Decimal(12, 4)
-  roles          DiscordRole[]  @relation("UserRoles")
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+    id            String        @id // ID do Discord
+    username      String
+    discriminator String
+    avatar        String?
+    wallet        Decimal       @db.Decimal(12, 4)
+    roles         DiscordRole[] @relation("UserRoles")
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
 }
 
 model DiscordRole {
-  id        String         @id // ID do cargo
-  name      String
-  users     DiscordUser[]  @relation("UserRoles")
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+    id        String        @id // ID do cargo
+    name      String
+    users     DiscordUser[] @relation("UserRoles")
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
 }
 
 model DiscordGuild {
-  id        String                @id // ID fixo do servidor do .env
-  name      String
-  icon      String?
-  env       DiscordGuildEnviroment?
-  createdAt DateTime              @default(now())
-  updatedAt DateTime              @updatedAt
+    id        String                  @id // ID fixo do servidor do .env
+    name      String
+    icon      String?
+    env       DiscordGuildEnviroment?
+    createdAt DateTime                @default(now())
+    updatedAt DateTime                @updatedAt
 }
 
 model DiscordGuildEnviroment {
-  id                 String        @id @default(uuid())
-  guild              DiscordGuild  @relation(fields: [guildId], references: [id])
-  guildId            String        @unique
-  initialMoneyValue  Decimal       @db.Decimal(12, 4)
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+    id                String       @id @default(uuid())
+    guild             DiscordGuild @relation(fields: [guildId], references: [id])
+    guildId           String       @unique
+    initialMoneyValue Decimal      @db.Decimal(12, 4)
+    createdAt         DateTime     @default(now())
+    updatedAt         DateTime     @updatedAt
 }
