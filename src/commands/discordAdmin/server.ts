@@ -69,7 +69,7 @@ export default {
                 try {
                     const decimal = parseFloat(value)
 
-                    await db.discordGuildEnviroment.upsert({
+                    await db.discordGuildEnvironment.upsert({
                         where: { guildId: guild.id },
                         update: { initialMoneyValue: decimal },
                         create: {

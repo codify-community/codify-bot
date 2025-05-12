@@ -24,7 +24,7 @@ export default {
             const guildId = interaction.guild?.id
             if (!guildId) throw new Error('Seu server não foi não encontrado.')
 
-            const env = await db.discordGuildEnviroment.findUnique({
+            const env = await db.discordGuildEnvironment.findUnique({
                 where: { guildId },
             })
 

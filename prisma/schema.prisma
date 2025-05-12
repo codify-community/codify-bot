@@ -65,5 +65,5 @@ model DiscordGuildEnvironment {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@map("discord_guild_enviroments")
+    @@map("discord_guild_environments")
 }
