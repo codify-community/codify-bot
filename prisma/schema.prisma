@@ -15,38 +15,55 @@ datasource db {
 }
 
 model DiscordUser {
-    id            String        @id // ID do Discord
+    id            String  @id // ID do Discord
     username      String
     discriminator String
     avatar        String?
-    wallet        Decimal       @db.Decimal(12, 4)
-    roles         DiscordRole[] @relation("UserRoles")
-    createdAt     DateTime      @default(now())
-    updatedAt     DateTime      @updatedAt
+    wallet        Decimal @db.Decimal(12, 4)
+
+    roles DiscordRole[] @relation("UserRoles")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("discord_users")
 }
 
 model DiscordRole {
-    id        String        @id // ID do cargo
-    name      String
-    users     DiscordUser[] @relation("UserRoles")
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
+    id   String @id // ID do cargo
+    name String
+
+    users DiscordUser[] @relation("UserRoles")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("discord_roles")
 }
 
 model DiscordGuild {
-    id        String                  @id // ID fixo do servidor do .env
-    name      String
-    icon      String?
-    env       DiscordGuildEnviroment?
-    createdAt DateTime                @default(now())
-    updatedAt DateTime                @updatedAt
+    id   String  @id // ID fixo do servidor do .env
+    name String
+    icon String?
+
+    env DiscordGuildEnvironment?
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("discord_guilds")
 }
 
-model DiscordGuildEnviroment {
-    id                String       @id @default(uuid())
-    guild             DiscordGuild @relation(fields: [guildId], references: [id])
-    guildId           String       @unique
-    initialMoneyValue Decimal      @db.Decimal(12, 4)
-    createdAt         DateTime     @default(now())
-    updatedAt         DateTime     @updatedAt
+model DiscordGuildEnvironment {
+    id String @id @default(uuid())
+
+    guild   DiscordGuild @relation(fields: [guildId], references: [id])
+    guildId String       @unique @map("guild_id")
+
+    initialMoneyValue Decimal @map("initial_money_value") @db.Decimal(12, 4)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("discord_guild_enviroments")
 }
