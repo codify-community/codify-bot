@@ -13,20 +13,13 @@ export const prisma = new PrismaClient({
         },
         {
             emit: 'stdout',
-            level: 'info',
-        },
-        {
-            emit: 'stdout',
             level: 'warn',
         },
     ],
-
     errorFormat: 'pretty',
 })
 
 prisma.$on('query', (event) => {
-    logger.log('')
     logger.log(`'Query: ${event.query} in ${event.duration}ms'`)
     logger.log(`Params: ${event.params}`)
-    logger.log('')
 })

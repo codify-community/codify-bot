@@ -118,7 +118,7 @@ function loadModules(workdir: PathLike) {
     files.forEach((file, index) => {
         const shortPath = file.replace(modulesPath, '').replace(/^[\\/]/, '')
         try {
-            import(file)
+            require(file)
             logger.success(
                 `[${index + 1}/${files.length}] Module loaded: ${chalk.blue(shortPath)}`,
             )
@@ -147,6 +147,12 @@ async function registerSlashCommands(client: Client<true>) {
     const guildCommands = storage.slashCommands.map(
         (slashCommand) => slashCommand,
     )
+
+    if (guildCommands.length === 0) {
+        logger.warn('No slash commands to register')
+        return
+    }
+
     await guild.commands
         .set(guildCommands)
         .then((commands) => {

@@ -72,6 +72,8 @@ export default tseslint.config(
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/unbound-method': 'off',
+            '@typescript-eslint/require-await': 'off',
+            '@typescript-eslint/no-require-imports': 'off'
         },
     }
 )
