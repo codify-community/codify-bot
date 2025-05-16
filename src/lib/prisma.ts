@@ -1,7 +1,7 @@
 import { logger } from '@/utils/logger'
 import { PrismaClient } from '$/generated/prisma'
 
-const db = new PrismaClient({
+export const prisma = new PrismaClient({
     log: [
         {
             emit: 'event',
@@ -24,11 +24,9 @@ const db = new PrismaClient({
     errorFormat: 'pretty',
 })
 
-db.$on('query', (e) => {
+prisma.$on('query', (event) => {
     logger.log('')
-    logger.log('Query: ' + e.query + ' in ' + e.duration + 'ms')
-    logger.log('Params: ' + e.params)
+    logger.log(`'Query: ${event.query} in ${event.duration}ms'`)
+    logger.log(`Params: ${event.params}`)
     logger.log('')
 })
-
-export default db
