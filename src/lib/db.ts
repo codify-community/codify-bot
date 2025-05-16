@@ -1,4 +1,4 @@
-import { Log } from '@/utils/log'
+import { logger } from '@/utils/logger'
 import { PrismaClient } from '$/generated/prisma'
 
 const db = new PrismaClient({
@@ -25,10 +25,10 @@ const db = new PrismaClient({
 })
 
 db.$on('query', (e) => {
-    console.log('')
-    Log.database('Query: ' + e.query + ' in ' + e.duration + 'ms')
-    Log.database('Params: ' + e.params)
-    console.log('')
+    logger.log('')
+    logger.log('Query: ' + e.query + ' in ' + e.duration + 'ms')
+    logger.log('Params: ' + e.params)
+    logger.log('')
 })
 
 export default db

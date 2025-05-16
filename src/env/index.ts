@@ -1,8 +1,8 @@
 import 'dotenv/config'
 
-import { z } from 'zod'
+import z from 'zod'
 
-import { Log } from '@/utils/log'
+import { logger } from '@/utils/logger'
 
 const envSchema = z.object({
     DISCORD_TOKEN: z.string(),
@@ -13,8 +13,8 @@ const envSchema = z.object({
 const _env = envSchema.safeParse(process.env)
 
 if (!_env.success) {
-    Log.error(`❌ Invalid environment variables: ${_env.error.format()}`)
-    throw new Error('Invalid environment variables')
+    logger.error('Invalid environment variables', _env.error.format())
+    throw new Error('Invalid environment variables.')
 }
 
 export const env = _env.data
